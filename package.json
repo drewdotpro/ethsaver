@@ -1,0 +1,20 @@
+{
+  "name": "ethsaver",
+  "version": "0.0.1",
+  "description": "Eth Saver is a collection of Smart Contracts for saving ether",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "bignumber.js": "^7.2.1",
+    "openzeppelin-solidity": "1.10.0",
+    "truffle-test-utils": "^0.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
