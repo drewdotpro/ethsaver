@@ -14,9 +14,6 @@ contract TimeLocked is Ownable {
         uint releaseTime;
     }
 
-    event Deposit(address depositor, uint amount, uint balance, uint releaseTime);
-    event Withdrawal(address depositor, uint amount);
-
     // 0.5% deposit fee
     uint constant public fee = 5;
     uint constant public denominator = 1000;
@@ -24,11 +21,17 @@ contract TimeLocked is Ownable {
     // Each account is assigned by address
     mapping (address => accountData) public accounts;
 
+    // Triggered on deposit
+    event Deposit(address depositor, uint amount, uint balance, uint releaseTime);
+
+    // Triggered on withdrawal
+    event Withdrawal(address depositor, uint amount);
+
     // Time to lock the funds until
     function deposit(uint releaseTime) external payable {
 
         // Lock time must be in the future
-        require(releaseTime > getNow());
+        require(releaseTime > now);
 
         // Deposit amount must be enough to trigger a fee (200 Wei)
         require(msg.value >= 200);
@@ -54,10 +57,11 @@ contract TimeLocked is Ownable {
         emit Deposit(msg.sender, depositAmount, accounts[msg.sender].balance, accounts[msg.sender].releaseTime);
     }
 
+    // Allow users to withdraw funds
     function withdraw() external {
 
         // if they have funds and it's post-release then send the funds, else stop
-        require(accounts[msg.sender].balance != 0 && accounts[msg.sender].releaseTime < getNow());
+        require(accounts[msg.sender].balance != 0 && accounts[msg.sender].releaseTime < now);
 
         // Set how much we're withdrawing
         uint withdrawalAmount = accounts[msg.sender].balance;
@@ -72,10 +76,4 @@ contract TimeLocked is Ownable {
         // Record the event
         emit Withdrawal(msg.sender, withdrawalAmount);
     }
-
-    // Unit tests need to control the time so this simply returns now in a real contract and a mock time in a test
-    function getNow() private view returns(uint) {
-        return now;
-    }
-
 }
