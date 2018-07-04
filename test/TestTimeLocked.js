@@ -8,7 +8,7 @@ contract('TimeLocked', accounts => {
 
     describe('Constructor', () => {
         it('should have an owner set', async () => {
-            const instance = await TimeLocked.new({from: owner});
+            const instance = await TimeLocked.new({from: owner, gasPrice});
             assert.equal(await instance.owner.call(), accounts[0], 'The instance owner is owner');
         });
     });

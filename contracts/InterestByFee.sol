@@ -1,9 +1,8 @@
 pragma solidity ^0.4.24;
 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
-contract InterestByFee is Ownable {
+contract InterestByFee {
 
     // Make sure we can be safe with uints
     using SafeMath for uint;
@@ -27,7 +26,7 @@ contract InterestByFee is Ownable {
     mapping(address => accountData) public accounts;
 
     // Triggered on deposit
-    event Deposit(address depositor, uint amount, uint balance);
+    event Deposit(address depositor, uint amount);
 
     // Triggered on withdrawal
     event Withdrawal(address depositor, uint amount);
@@ -38,19 +37,20 @@ contract InterestByFee is Ownable {
         // Deposit amount must be greater than zero
         require(msg.value > 0);
 
-        // Set sender's balance to be the deposit amount plus any amount that is already there (default 0)
-        accounts[msg.sender].balance += msg.value;
-        totalUserBalances += msg.value;
+        // User can't have an account already
+        require(accounts[msg.sender].balance == 0);
+
+        // Set sender's balance to be the deposit amount
+        accounts[msg.sender].balance = msg.value;
 
         // Record the total funds
+        totalUserBalances += msg.value;
 
         // If fees have already been collected by this contract, this new depositor should only get future ones
-        if (collectedFees > 0 && accounts[msg.sender].feeOffset == 0) {
-            accounts[msg.sender].feeOffset = collectedFees;
-        }
+        accounts[msg.sender].feeOffset = collectedFees;
 
         // Record the event
-        emit Deposit(msg.sender, msg.value, accounts[msg.sender].balance);
+        emit Deposit(msg.sender, msg.value);
     }
 
     // Allow the user to withdraw their funds, with a 10% fee
