@@ -31,7 +31,7 @@ contract TimeLocked is Ownable {
     function deposit(uint releaseTime) external payable {
 
         // Lock time must be in the future
-        require(releaseTime > now);
+        require(releaseTime > getNow());
 
         // Deposit amount must be enough to trigger a fee (200 Wei)
         require(msg.value >= 200);
@@ -61,7 +61,7 @@ contract TimeLocked is Ownable {
     function withdraw() external {
 
         // if they have funds and it's post-release then send the funds, else stop
-        require(accounts[msg.sender].balance != 0 && accounts[msg.sender].releaseTime < now);
+        require(accounts[msg.sender].balance != 0 && accounts[msg.sender].releaseTime <= getNow());
 
         // Set how much we're withdrawing
         uint withdrawalAmount = accounts[msg.sender].balance;
@@ -75,5 +75,9 @@ contract TimeLocked is Ownable {
 
         // Record the event
         emit Withdrawal(msg.sender, withdrawalAmount);
+    }
+
+    function getNow() internal view returns(uint) {
+        return now;
     }
 }

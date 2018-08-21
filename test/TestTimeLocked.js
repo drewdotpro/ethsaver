@@ -1,6 +1,5 @@
 require('truffle-test-utils').init();
-const TimeLocked = artifacts.require("TimeLocked");
-const timeTravel = require('./helpers/timeTravel');
+const TimeLocked = artifacts.require("TimeLockedMock");
 const BigNumber = require('bignumber.js');
 contract('TimeLocked', accounts => {
     const gasPrice = web3.toWei(1, 'gwei');
@@ -221,7 +220,7 @@ contract('TimeLocked', accounts => {
             const expectedAccountBalanceA = startBalance.minus(depositAmount).minus(etherUsedA);
             assert.equal(expectedAccountBalanceA.toString(), postDepositBalance.toString(), 'The account balance is correct');
 
-            await timeTravel(10);
+            await instance.setNow(now + 10);
             const resultB = await instance.withdraw({from: depositor, gasPrice});
             const postWithawalBalance = await web3.eth.getBalance(depositor);
             const etherUsedB = new BigNumber(resultB.receipt.gasUsed).times(gasPrice);
