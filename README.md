@@ -2,34 +2,46 @@
 
 A set of Ethereum Smart Contracts for saving & finance managenment.
 
-## Time Locked 
+## Contracts
+
+### Time Locked 
 
 An Ethereum Smart Contract that allows you to save ETH in it until a timestamp is reached on the blockchain.
 
-### Deposit
+#### Deposit
 
 Engage the `deposit` function as payable with a timestamp to deposit ETH. You may make further deposits and either increase or keep the existing timestamp. A 0.5% deposit fee is charged.
 
-### Withdrawal
+#### Withdrawal
 
 Engage `withdraw` after the timestamp with the same address you deposited with to initiate withdrawal.
 
-## Penalty Box
+### Penalty Box
 
 An Ethereum Smart Contract that allows you to save ETH in it until a timestamp is reached on the blockchain, or allows early withdrawal with a 10% fee.
 
-## Deposit
+### Deposit
 
 Engage the `deposit` function as payable with a timestamp to deposit ETH. You may make further deposits and either increase or keep the existing timestamp. No fee is charged.
 
-### Withdrawal
+#### Withdrawal
 
 Withdrawal accepts an `allowEarly` boolean to say if the withdrawal is permitted if the timestamp hasn't expired.
 
-#### Withdrawal after expiry
+##### Withdrawal after expiry
 
 Engage `withdraw` with `false` on the `allowEarly` parameter after the timestamp with the same address you deposited with to initiate withdrawal with no penalty.
 
-#### Withdrawal before expiry
+##### Withdrawal before expiry
 
 Engage `withdraw` with `true` on the `allowEarly` parameter  with the same address you deposited with to initiate withdrawal with a 10% penalty.
+
+## Testing
+
+To test the contracts, you'll need to run Ganache (download from [here](https://truffleframework.com/ganache) if you don't have it)
+
+Then just run
+
+```
+npm run test
+```
