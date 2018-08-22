@@ -36,6 +36,14 @@ Engage `withdraw` with `false` on the `allowEarly` parameter after the timestamp
 
 Engage `withdraw` with `true` on the `allowEarly` parameter  with the same address you deposited with to initiate withdrawal with a 10% penalty.
 
+## Install
+
+Install like a node package
+
+```
+npm i
+```
+
 ## Testing
 
 To test the contracts, you'll need to run Ganache (download from [here](https://truffleframework.com/ganache) if you don't have it)
