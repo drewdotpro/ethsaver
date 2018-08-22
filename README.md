@@ -26,7 +26,7 @@ Engage the `deposit` function as payable with a timestamp to deposit ETH. You ma
 
 #### Withdrawal
 
-Withdrawal accepts an `allowEarly` boolean to say if the withdrawal is permitted if the timestamp hasn't expired.
+Withdrawal accepts an `allowEarly` boolean to say if the withdrawal is permitted if the timestamp hasn't expired. If you attempt to withdraw early without the `allowEarly` parameter set to true the transaction will fail.
 
 ##### Withdrawal after expiry
 
